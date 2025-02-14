@@ -13,7 +13,7 @@ for (let select of dropdowns) {
 
     if (select.name === "from_" && currCode === "USD") {
       newOption.selected = "selected";
-    } else if (select.name === "to" && currCode === "INR") {
+    } else if (select.name === "to" && currCode === "NPR") {
       newOption.selected = "selected";
     }
 
@@ -33,12 +33,15 @@ const updateFlag = (element) => {
   img.src = newSrc;
 };
 
-const URL = `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${fromCurr.value}.json`;
+
 
 button.addEventListener("click", async (evt) => {
   evt.preventDefault();
   let amount = document.querySelector(".amount input");
   let amtVal = amount.value || 1;
+  
+  // Using Exchange Rate API
+  const URL = `https://api.exchangerate-api.com/v4/latest/${fromCurr.value}`;
 
   try {
     let response = await fetch(URL);
@@ -46,14 +49,12 @@ button.addEventListener("click", async (evt) => {
       throw new Error(`HTTP Error! Status: ${response.status}`);
     }
     let data = await response.json();
-    console.log(data);
-    if (!data[fromCurr.value]) {
-      throw new Error("Currency data not found.");
-    }
-
-    let rate = data[fromCurr.value.toLowerCase()][toCurr.value.toLowerCase()];
+    
+    // Get the conversion rate from the rates object
+    let rate = data.rates[toCurr.value];
+    console.log(rate)
     if (!rate) {
-      throw new Error(`Exchange rate for ${toCurr.value} not available.`);
+      throw new Error(`Exchange rate not available.`);
     }
 
     let converted = (amtVal * rate).toFixed(2);
