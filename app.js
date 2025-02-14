@@ -43,24 +43,18 @@ button.addEventListener("click", async (evt) => {
   // Using Exchange Rate API
   const URL = `https://api.exchangerate-api.com/v4/latest/${fromCurr.value}`;
 
-  try {
+  
     let response = await fetch(URL);
-    if (!response.ok) {
-      throw new Error(`HTTP Error! Status: ${response.status}`);
-    }
+  
     let data = await response.json();
     
     // Get the conversion rate from the rates object
     let rate = data.rates[toCurr.value];
     console.log(rate)
-    if (!rate) {
-      throw new Error(`Exchange rate not available.`);
-    }
+   
 
     let converted = (amtVal * rate).toFixed(2);
     newMsg.innerText = `${amtVal} ${fromCurr.value} = ${converted} ${toCurr.value}`;
-  } catch (error) {
-    console.error("Failed to fetch currency data:", error);
-    newMsg.innerText = "Failed to fetch exchange rates. Please try again later.";
-  }
+    
+  
 });
