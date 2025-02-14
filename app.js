@@ -1,5 +1,5 @@
 const url = "http://apilayer.net/api/live?access_key=8520e84ad903c5b0c37c4aa920530c2d&currencies=NPR&source=USD&format=1";
-const selectconatianer = document.querySelector(".select-container");
+const newMsg = document.querySelector(".msg");
 
 
 const dropdowns = document.querySelectorAll(".dropdown select");
